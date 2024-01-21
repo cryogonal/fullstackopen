@@ -1,1 +1,2 @@
-## Used for fullstackopen.com course. 
+## fullstackopen
+Used for the fullstackopen.com course.
