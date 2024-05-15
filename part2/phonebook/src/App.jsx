@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+
 
 const Names = ({person}) => {
   return (
@@ -50,6 +51,7 @@ const App = (props) => {
   const [newNumber, setNewNumber] = useState('')
   const [searchPerson, setSearchPerson] = useState('')
   const [filter, setFilter] = useState(props.persons)
+
   
   const addPerson = (event) => {
     event.preventDefault()
