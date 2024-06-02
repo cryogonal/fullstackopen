@@ -50,7 +50,6 @@ const App = () => {
   const fetchWeatherData = async (capital) => {
     try {
       const apiKey = import.meta.env.VITE_SOME_KEY
-      //const v3 = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=${part}&appid=${apiKey}`
       const v2_5 = `https://api.openweathermap.org/data/2.5/weather?q=${capital}&appid=${apiKey}&units=metric`
       const weatherResponse = await axios.get(v2_5)
       setWeather(weatherResponse.data)
@@ -121,13 +120,11 @@ const App = () => {
             )
           }
 
-          
-
           {apiError && <p>{apiError}</p>}
         </div>
       )}
 
-      {countries.length === 1 && (
+      {countries.length===1 && (
         <div>
           <h3>{countries[0].name.common}</h3>
           <p>Capital: {countries[0].capital}</p>
@@ -136,8 +133,7 @@ const App = () => {
           <p>Flag:</p>
           {<img src = {countries[0].flags.png} alt = {`${countries[0].name.common}'s flag`}></img>}
           <p>Weather Map Data</p>
-          {
-            weather && (
+          {weather && (
               <div>
                 <h3>Weather in: {countries[0].capital[0]}</h3>
                 <p>Temperature: {weather.main.temp}°C</p>
@@ -155,8 +151,6 @@ const App = () => {
               </div>
             )
           }
-
-          
 
           {apiError && <p>{apiError}</p>}
         </div>
