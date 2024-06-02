@@ -1,7 +1,16 @@
 import { useState, useEffect } from 'react'
 //import axios from 'axios'
 import nameService from './services/name'
+import './index.css'
 
+ /* const Notification = ({successfulMessage}) => {
+  if (successfulMessage === null) {
+    return null;
+  }
+  return (
+    <div className = 'successful-message'>{successfulMessage}</div>
+  )
+} */
 
 const Names = ({person, removePerson}) => {
   return (
@@ -53,6 +62,19 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [searchPerson, setSearchPerson] = useState('')
   const [filter, setFilter] = useState([])
+  const [successfulMessage, setSuccessfulMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+
+  const Notification = ({message, isError}) => {
+    if (!message) {
+      return null
+    }
+    const className = isError ? 'error-message' : 'successful-message'
+
+    return (
+      <div className = {className}>{message}</div>
+    )
+  }
 
   const hook = () => {
     console.log('effect')
@@ -92,10 +114,18 @@ const App = () => {
           setFilter(prevFilter => {
             prevFilter.id === nameExists.id ? updatedPerson : persons
           })
+          setSuccessfulMessage(`${updatedPerson.name} has been updated`)
+          setTimeout(() => {
+            setSuccessfulMessage('')
+          }, 4000)
         })
         .catch(error => {
           console.log("Error updating the number", error.message)
-          alert("Error updating the number")
+          setErrorMessage(`${nameExists.name} has already been removed from the server`)
+          setTimeout(() => {
+            setErrorMessage('')
+          }, 4000)
+          //alert("Error updating the number")
         })
     }
     else {
@@ -104,6 +134,10 @@ const App = () => {
           console.log(returnedPerson)
           setPersons(persons.concat(returnedPerson))
           setFilter(filter.concat(returnedPerson))
+          setSuccessfulMessage(`Added ${returnedPerson.name}`)
+          setTimeout(() => {
+            setSuccessfulMessage('')
+          }, 4000)
       })
     }
     setNewName('')
@@ -145,6 +179,8 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification message = {successfulMessage} isError = {false} />
+      <Notification message = {errorMessage} isError = {false} />
       <SearchFilter 
         searchPerson = {searchPerson} 
         handleSearchPerson = {handleSearchPerson} />
@@ -157,6 +193,7 @@ const App = () => {
         handlePersonChange = {handlePersonChange}
         newNumber = {newNumber}
         handleNumberChange = {handleNumberChange}
+        // successfulMessage = {successfulMessage}
       />
       <h2>Numbers</h2>
       <Persons filter = {filter} removePerson = {removePerson}/>
